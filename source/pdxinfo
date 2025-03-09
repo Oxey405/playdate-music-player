@@ -1,0 +1,6 @@
+name=Music Player
+author=Oxey405
+description=A small Music Player
+bundleID=com.oxey405.musicplayer
+version=1.0
+buildNumber=001
