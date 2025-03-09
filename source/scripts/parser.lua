@@ -38,6 +38,6 @@ end
 
 function SecsToMinSecs(duration)
     local mins = duration // 60
-    local secs = math.ceil(duration % 60)
+    local secs = math.floor(duration % 60)
     return mins, secs
 end

@@ -38,8 +38,17 @@ end
 function AddToPlaylist()
     table.insert(Playlist, File_Browser:getSelectedRow())
     Playlist_browser:setNumberOfRows(#Playlist)
+
+    if not FilePlayer:isPlaying() then
+        PlayNextPlaylistSong()
+    end
     print(#Playlist)
     printTable(Playlist)
+end
+
+function PlayNextPlaylistSong()
+    Playing_song_index = table.remove(Playlist, 1)
+    Play_song(true, true)
 end
 
 function SkipToPlaylist()

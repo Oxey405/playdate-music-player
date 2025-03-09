@@ -51,8 +51,7 @@ function File_Browser:drawCell(section, row, column, selected, x, y, width, heig
     gfx.drawText(song_info.album or "Unknown Album", x + 24, y + 30)
     Icons:getImage(3):draw(x + 6, y + 48)
     gfx.drawText(song_info.artist or "Unknwon Artist", x + 24, y + 48)
-    local mins = song_info.duration // 60
-    local secs = math.ceil(song_info.duration - (mins * 60))
+    local mins, secs = SecsToMinSecs(song_info.duration)
     Icons:getImage(4):draw(x + 6, y + 68)
     gfx.drawText(string.format("%02i:%02i - %s", mins, secs, song_info.year or "????"), x+24, y+68)
     gfx.drawText("▸ Ⓐ", x+width-42, y+height-24, Roobert)
@@ -129,7 +128,7 @@ function HandleInputs()
 
 end
 
-function Play_song(from_playlist, did_skip)
+function Play_song(from_playlist, force_interrupt)
     if Playing_song_index == File_Browser:getSelectedRow() and FilePlayer:isPlaying() then
         Playing_song_index = File_Browser:getSelectedRow()
         return
@@ -152,7 +151,7 @@ function Play_song(from_playlist, did_skip)
     -- should_stop = true
 
     FilePlayer:setFinishCallback(function ()
-        if #Playlist ~= 0 and not did_skip then
+        if #Playlist ~= 0 and not force_interrupt then
             Playing_song_index = Playlist[1]
             table.remove(Playlist, 1)
             Playlist_browser:setNumberOfRows(#Playlist)

@@ -18,6 +18,11 @@ local currently_playing_animator = gfx.animator.new(transition_time, hidden_y, s
 currently_playing_animator:currentValue()
 
 function ToggleCurrentlyPlaying()
+    
+    if FilePlayer == nil then
+        return
+    end
+
     if Currently_playing_opened then
         currently_playing_animator = gfx.animator.new(transition_time, currently_playing_animator:currentValue(), hidden_y, playdate.easingFunctions.inOutQuad)
         currently_playing_animator:reset()
@@ -34,6 +39,9 @@ function ToggleCurrentlyPlaying()
 end
 
 function OpenCurrentlyPlaying()
+    if FilePlayer == nil then
+        return
+    end
     Currently_playing_opened = true
     Currently_playing_expanded = false
     currently_playing_animator = gfx.animator.new(transition_time, currently_playing_animator:currentValue(), shown_y, playdate.easingFunctions.inOutQuad)
@@ -69,11 +77,11 @@ function ScrollCurrentlyPlayingBy(factor)
     end
 
     
-    if not Currently_playing_expanded and factor >= 30 then
+    if not Currently_playing_expanded and factor >= 20 then
         ExpandCurrentlyPlaying()
     end 
 
-    if factor <= -30 and Currently_playing_expanded then
+    if factor <= -20 and Currently_playing_expanded then
         RetractCurrentlyPlaying(true)
     end
 
